@@ -1,5 +1,3 @@
-from random import randint
-
 Go = ["Go",0,0,-1]
 MediterRanean_Avenue = ["Mediter Ranean Avenue",25,5,0]
 Chest1 = ["Chest I",50,0,0]
@@ -82,23 +80,24 @@ Places=[Go,
         Luxury_Tax,
         Board_Walk]
 
-class env:
-    Places = Places
+class Environment:
+    def __init__(self,begin_state,agents:list):
+        self.map = Places
+        self.curr_state = begin_state
+        self.agents = agents
+        self.__winner = -1 
 
-players = []
-
-class Game:
-    def __init__(self, players):
-        self.Players = players
-
-    def check_bankrupt(self):
-        for x in self.Players:
-            if x.money < 0:
-                print(x.name, " has bankrupted he/she can't play anymore")
-
-    def check_winner(self):
-        for x in self.Players:
-            if x.position == 0:
-                print(f"{x.name} won!")
-                break
-                            
+    def step(self):
+        if self.curr_state.isTerminal:
+            return True
+        for i, agent in enumerate(self.agents):
+                new_state = None
+                while new_state == None:
+                        action = agent.play(self.curr_state.deepcopy())
+                        new_state = self.curr_state.apply_action(action, 2*i-1)
+                self.curr_state = new_state
+                if self.curr_state.isTerminal:
+                        self.__winner = i
+                        return True
+        return False
+        
