@@ -1,3 +1,5 @@
+from random import randint
+
 Go = ["Go",0,0,-1]
 MediterRanean_Avenue = ["Mediter Ranean Avenue",25,5,0]
 Chest1 = ["Chest I",50,0,0]
@@ -89,11 +91,13 @@ class Environment:
 
     def step(self):
         if self.curr_state.isTerminal:
-            return True
+            return -1
         for i, agent in enumerate(self.agents):
                 new_state = None
                 while new_state == None:
-                        action = agent.play(self.curr_state.deepcopy())
+                        position = randint(1,6)
+                        agent.position = (agent.position + position)%40
+                        action = agent.play(self.curr_state)
                         new_state = self.curr_state.apply_action(action, 2*i-1)
                 self.curr_state = new_state
                 if self.curr_state.isTerminal:

@@ -1,6 +1,6 @@
 class State():
 
-    def __init__(self,agent):
+    def __init__(self, agent):
         self.isTerminal = self.isTerminal()
         self.value = self.calculate_value()
         self.agent = agent
