@@ -17,7 +17,7 @@ class Agent():
     def play(self):
         pass
 
-    def min_value(self):
+    def expected_value(self):
         pass
 
     def max_value(self):

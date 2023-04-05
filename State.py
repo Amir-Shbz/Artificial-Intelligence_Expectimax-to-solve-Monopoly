@@ -1,27 +1,27 @@
-from random import randint
-
 class State():
-    def __init__(self,curr_player_number:int = -1):
-        self.isTerminal = False
+
+    def __init__(self,agent):
+        self.isTerminal = self.isTerminal()
         self.value = self.calculate_value()
-        self.curr_player_number = curr_player_number
+        self.agent = agent
 
-    def calculate_value(self):
-        value = 0
-        
-        pass
+    def isTerminal(self):
+        if self.agent.position == 0:
+            return True
+        return False          
 
-    def check_potential(self, start, end):
-        
-        pass
-
-    def apply_action(self):
-
-        pass
+    def evaluation(self):
+        gamma = -2
+        value = (self.agent.money)+(gamma*(39-self.agent.position))
+        return value
 
     def next_states(self):
         for action in range(len(self.board[0])):
             new_state = self.apply_action(action, self.curr_player_number)
             if new_state != None:
-                yield (action, new_state)
-        
+                yield (action, new_state)   
+
+    def apply_action(self):
+
+        pass
+                 
