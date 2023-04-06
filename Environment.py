@@ -89,13 +89,17 @@ class Environment:
         self.agents = agents
         self.__winner = -1 
 
+    global t
+    t = 0
+
     def step(self):
-        if self.curr_state.isTerminal:
+        if self.curr_state.isTerminal and t!=0:
             return -1
         for i, agent in enumerate(self.agents):
                 new_state = None
                 while new_state == None:
                         position = randint(1,6)
+                        t = 1
                         agent.position = (agent.position + position)%40
                         action = agent.play(self.curr_state)
                         new_state = self.curr_state.apply_action(action, 2*i-1)
