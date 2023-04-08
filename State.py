@@ -16,10 +16,7 @@ class State():
         return value
 
     def next_states(self):
-        for action in range(len(self.board[0])):
-            new_state = self.apply_action(action, self.curr_player_number)
-            if new_state != None:
-                yield (action, new_state)   
+        pass  
 
     def apply_action(self):
 

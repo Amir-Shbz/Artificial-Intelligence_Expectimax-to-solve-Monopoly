@@ -102,7 +102,7 @@ class Environment:
                         t = 1
                         agent.position = (agent.position + position)%40
                         action = agent.play(self.curr_state)
-                        new_state = self.curr_state.apply_action(action, 2*i-1)
+                        new_state = self.curr_state.apply_action(action)
                 self.curr_state = new_state
                 if self.curr_state.isTerminal:
                         self.__winner = i
