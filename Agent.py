@@ -1,28 +1,28 @@
-# from random import randint
-# from State import env
-
-
-#     def roll(self):
-#         self.dice1=randint(1,6)
-#         self.dice2=randint(1,6)
-#         x = self.dice1 + self.dice2
-#         self.position = (self.position + x)%40   
-
 class Agent():
     def __init__(self,name):
         self.name = name
         self.money = 4000
         self.position = 0
-        self.number = 1 # Default is Max player.
-
-    def play(self, curr_state):
-        action = -1
+         
+    def ExpectiMax(self, curr_state, depth, IsMaxPlayer):
+        action = 0
+        if depth==0:
+            return action, curr_state.evaluation()
         
+        if IsMaxPlayer:
+            max_value = float('-inf')
+            for successor in curr_state.next_states(IsMaxPlayer):
+                action,value = ExpectiMax(successor, depth-1, False)
+                if value > max_value:
+                    bestmove=successor
+                    max_value=value 
+            return bestmove,max_value
+       
+        else:
+            ExpectedValue = 0
+            for successor in curr_state.get_successors():
+                bestmove,value = ExpectiMax(successor, depth-1, True)
+                ExpectedValue += value* successor.Probability()
+                
+            return bestmove,ExpectedValue 
         
-
-
-    def expected_value(self):
-        pass
-
-    def max_value(self):
-        pass    

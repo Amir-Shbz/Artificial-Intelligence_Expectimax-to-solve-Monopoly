@@ -82,30 +82,44 @@ Places=[Go,
         Luxury_Tax,
         Board_Walk]
 
+class Buy:
+
+    def action(self, agent, position):
+        agent.money -= Places[position][1]
+        Places.append(agent.id)
+
+class Rent:
+    def action(self, agent1, agent2, position):
+        agent1.money -= Places[position][1]
+        agent2.money += Places[position][2]
+        
+class Play_from_Go:
+    def action(self, agent):
+        agent.position = 0 
+
+actions = [Buy, Rent, Play_from_Go]
+
 class Environment:
-    def __init__(self,begin_state,agents:list):
+    def __init__(self,begin_state,agents:list,actions):
         self.map = Places
         self.curr_state = begin_state
         self.agents = agents
-        self.__winner = -1 
+        self.winner = -2
+        self.action = actions
 
-    global t
-    t = 0
+    def step(self, agent):
+        if agent.id == -1:
+            position = randint(1,6)
+            self.agents[0].position += position
+            x = int(input())
+            new_state = self.curr_state.apply_action(self.action[x])
 
-    def step(self):
-        if self.curr_state.isTerminal and t!=0:
-            return -1
-        for i, agent in enumerate(self.agents):
-                new_state = None
-                while new_state == None:
-                        position = randint(1,6)
-                        t = 1
-                        agent.position = (agent.position + position)%40
-                        action = agent.play(self.curr_state)
-                        new_state = self.curr_state.apply_action(action)
-                self.curr_state = new_state
-                if self.curr_state.isTerminal:
-                        self.__winner = i
-                        return True
-        return False
+        elif agent.id == 1:
+            action, value = agent.ExpectiMax(self.curr_state)
+            new_state = self.curr_state.apply_action(action)
+            self.curr_state = new_state
+            if self.curr_state.isTerminal:
+                self.winner = agent.id
+                return True
+            return False
         
