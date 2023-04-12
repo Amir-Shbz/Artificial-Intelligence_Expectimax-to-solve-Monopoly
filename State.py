@@ -16,9 +16,4 @@ class State():
         return value
 
     def next_states(self):
-        pass  
-
-    def apply_action(self):
-
-        pass
-                 
+        pass              

@@ -83,40 +83,47 @@ Places=[Go,
         Board_Walk]
 
 class Buy:
+    def apply(self, state, position):
+        state.agent.money -= Places[position][1]
+        Places.append(state.agent.id)
 
-    def action(self, agent, position):
-        agent.money -= Places[position][1]
-        Places.append(agent.id)
+        return state
 
 class Rent:
-    def action(self, agent1, agent2, position):
-        agent1.money -= Places[position][1]
+    def apply(self, state, agent2, position):
+        state.agent.money -= Places[position][1]
         agent2.money += Places[position][2]
+
+        return state
         
 class Play_from_Go:
-    def action(self, agent):
-        agent.position = 0 
+    def apply(self, state):
+        state.agent.position = 0 
+
+        return state
 
 actions = [Buy, Rent, Play_from_Go]
 
 class Environment:
-    def __init__(self,begin_state,agents:list,actions):
+    def __init__(self, begin_state, agents:list, actions):
         self.map = Places
         self.curr_state = begin_state
         self.agents = agents
         self.winner = -2
         self.action = actions
 
-    def step(self, agent):
+    def step(self, agent, depth):
         if agent.id == -1:
             position = randint(1,6)
             self.agents[0].position += position
             x = int(input())
-            new_state = self.curr_state.apply_action(self.action[x])
+            y = self.action[x]()
+            new_state = y.apply(self.curr_state, agent.position)
 
         elif agent.id == 1:
-            action, value = agent.ExpectiMax(self.curr_state)
-            new_state = self.curr_state.apply_action(action)
+            action, value = agent.ExpectiMax(self.curr_state, depth, True)
+            y = self.action[action]()
+            new_state = y.apply(self.curr_state, agent.position)
             self.curr_state = new_state
             if self.curr_state.isTerminal:
                 self.winner = agent.id
