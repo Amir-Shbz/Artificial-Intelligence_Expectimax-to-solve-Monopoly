@@ -12,7 +12,7 @@ class Agent():
         
         if IsMaxPlayer:
             max_value = float('-inf')
-            for successor in curr_state.next_states():
+            for successor in curr_state.next_states(True, curr_state):
                 action1, value = self.ExpectiMax(successor, depth-1, False)
                 if value > max_value:
                     action=action1
@@ -21,7 +21,7 @@ class Agent():
        
         else:
             ExpectedValue = 0
-            for successor in curr_state.next_states():
+            for successor in curr_state.next_states(False, curr_state):
                 action, value = self.ExpectiMax(successor, depth-1, True)
                 ExpectedValue += (value*(1/6))
                 
