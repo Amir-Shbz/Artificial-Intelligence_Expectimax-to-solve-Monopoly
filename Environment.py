@@ -1,4 +1,4 @@
-from random import randint
+from numpy.random import randint
 
 Go = ["Go",0,0,-1]
 MediterRanean_Avenue = ["Mediter Ranean Avenue",25,5,0]
