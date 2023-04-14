@@ -114,19 +114,34 @@ class Environment():
 
     def step(self, agent, depth):
         if agent.id == -1:
+            print('You should play now ...')
             position = randint(1,6)
+            print(f'Your dice is {position}')
             self.agents[0].position += position
+            print('Choose your action please : 0 is Buy, 1 is Rent and 2 is Playing from the begin')
             x = int(input())
             y = self.action[x]()
             new_state = y.apply(self.curr_state, agent.position)
 
+            print('\n')
+            print('\n')
+
+            if agent.position == 0:
+                print('You Won :)')
+                return True
+
         elif agent.id == 1:
+            print('System is palying ...')
             action, value = agent.ExpectiMax(self.curr_state, depth, True)
+            print(f'action {action} was selected by system.')
             y = self.action[action]()
             new_state = y.apply(self.curr_state, agent.position)
             self.curr_state = new_state
             if self.curr_state.isTerminal:
                 self.winner = agent.id
+                print('You Lose :)')
                 return True
+            print('\n')
+            print('\n')
         return False
         
