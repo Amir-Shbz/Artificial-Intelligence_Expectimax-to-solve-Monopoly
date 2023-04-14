@@ -104,7 +104,7 @@ class Play_from_Go:
 
 actions = [Buy, Rent, Play_from_Go]
 
-class Environment:
+class Environment():
     def __init__(self, begin_state, agents:list, actions):
         self.map = Places
         self.curr_state = begin_state
