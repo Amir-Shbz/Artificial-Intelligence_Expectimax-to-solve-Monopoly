@@ -1,6 +1,6 @@
 class Agent():
-    def __init__(self,name):
-        self.id = 0
+    def __init__(self,name,Id):
+        self.id = Id
         self.name = name
         self.money = 4000
         self.position = 0

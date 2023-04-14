@@ -128,5 +128,5 @@ class Environment():
             if self.curr_state.isTerminal:
                 self.winner = agent.id
                 return True
-            return False
+        return False
         
